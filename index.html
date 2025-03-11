@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>RewardSDS: Aligning Score Distillation via Reward-Weighted Sampling</title>
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="static/css/videos.css">
+  <link rel="stylesheet" href="static/css/image.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+<body>
+<body>
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">RewardSDS: Aligning Score Distillation via Reward-Weighted Sampling</h1>
+            <div class="is-size-4 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a href="https://www.linkedin.com/in/itay-chachy-55339a1b7/" target="_blank">Itay Chachy</a>, </span>
+              <span class="author-block">
+                <a href="https://guyyariv.github.io/" target="_blank">Guy Yariv</a>, </span>
+              <span class="author-block">
+                <a href="https://sagiebenaim.github.io/" target="_blank">Sagie Benaim</a>
+              </span>
+            </div>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">The Hebrew University of Jerusalem</span>
+            </div>
+            <br>
+            <div class="publication-links">
+              <!-- Arxiv PDF link -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/<ARXIV PAPER ID>.pdf" target="_blank"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- ArXiv abstract Link -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/<ARXIV PAPER ID>" target="_blank"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Github link -->
+              <span class="link-block">
+                <a href="https://github.com/itaychachy/RewardSDS" target="_blank"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (Coming Soon...)</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <!-- Qualitative Examples first -->
+  <section id="ours-results">
+    <h2 class="results has-text-centered">Text-to-3D</h2>
+    <!-- <h3 class="sub-results has-text-centered">NeRF-Based Scenes</h3> -->
+    <!-- Added inline flex styles with reduced gap for closer video items -->
+    <div class="video-gallery" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 100px;">
+      <div class="video-item">
+        <video class="video" src="static/videos/results/nerf/penguin.mp4" autoplay loop muted></video>
+        <div class="vid-title">"A penguin with a brown bag in the snow"</div>
+      </div>
+      <div class="video-item">
+        <video class="video" src="static/videos/results/nerf/scarf.mp4" autoplay loop muted></video>
+        <div class="vid-title">"A man with a red scarf"</div>
+      </div>
+      <div class="video-item">
+        <video class="video" src="static/videos/results/nerf/shitzu.mp4" autoplay loop muted></video>
+        <div class="vid-title">"A shitzu with a bowtie"</div>
+      </div>
+    </div>
+
+    <div class="video-gallery" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 100px;">
+      <div class="video-item">
+        <video class="video" src="static/videos/results/nerf/dogs.mp4" autoplay loop muted></video>
+        <div class="vid-title">"Two dogs in the park"</div>
+      </div>
+      <div class="video-item">
+        <video class="video" src="static/videos/results/nerf/ghost.mp4" autoplay loop muted></video>
+        <div class="vid-title">"A DSLR photo of a ghost eating a hamburger"</div>
+      </div>
+      <div class="video-item">
+        <video class="video" src="static/videos/results/nerf/dunk.mp4" autoplay loop muted></video>
+        <div class="vid-title">"A basketball player dunking a basketball"</div>
+      </div>
+    </div>
+  <!-- End of results -->
+
+  <!-- Paper abstract -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths has-text-centered">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Score Distillation Sampling (SDS) has emerged as a highly effective technique for leveraging 2D diffusion priors for a diverse set of tasks such as text-to-3D generation. While powerful, SDS still struggles with achieving fine-grained alignment to user intent. To overcome this limitation, we introduce <strong>RewardSDS</strong>, a novel approach that weights noise samples based on the alignment scores of a reward model, producing weighted SDS loss. This loss prioritizes gradients from noise samples that yield aligned high-reward output. Our approach is broadly applicable and can be applied to diverse methods extending SDS. In particular, we also demonstrate its applicability to Variational Score Distillation (VSD) by introducing RewardVSD. We evaluate RewardSDS and RewardVSD on text-to-image, 2D editing, and text-to-3D generation tasks, demonstrating a significant improvement over SDS and VSD on a diverse set of metrics measuring generation quality and alignment to desired reward models, enabling state-of-the-art performance.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End paper abstract -->
+  <br>
+
+  <!-- Paper method -->
+  <section class="hero is-small">
+    <div class="container">
+      <div class="content has-text-justified">
+        <h2 class="title is-3 has-text-centered">Method</h2>
+        <!-- Load MathJax for LaTeX math rendering -->
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+        <div class="method-figure-container">
+          <img src="static/figs/method.png" alt="Method Figure" style="max-width:70%; height:auto;">
+        </div>
+      <p style="max-width: 67%; margin: 0 auto; font-size: 0.9em;">
+          Overview of our I2V framework, transforming a reference image \( x^{(0)} \) and text prompt \( c \) into a coherent video sequence \( \hat{x} \).
+          A pre-trained LLM is used to derive the motion-specific prompt \( c_{motion} \) and object-specific prompts
+          \( c_{local} = \{c_{local}^{(1)}, \dots, c_{local}^{(L)}\} \) capturing each object's intended motion.
+          We generate an initial segmentation mask \( s^{(0)} \) from \( x^{(0)} \) using SAM2.
+          In Stage 1, the Image-to-Motion utilizes \( x^{(0)}, s^{(0)}, c_{motion} \)
+          to generate mask-based motion trajectories \( \hat{s} \) that represent object-specific movement paths.
+          In Stage 2, the Motion-to-Video takes as input \( x^{(0)}, \hat{s}, c \) as a global condition,
+          and \( c_{local} \) through masked attention blocks, integrating the mask-based motion trajectory softly using learned attention layers.
+          Specifically, we employ (i) masked cross-attention to integrate object-specific prompts into corresponding latent space regions, and (ii) masked self-attention to ensure each object maintains consistency across frames by restricting attention to object-defined regions.
+        </p>
+      </div>
+    </div>
+  </section>
+  <!-- End paper method -->
+  <br>
+
+  <!-- Comparisons -->
+  <section id="comparisons">
+    <h2 class="results has-text-centered">RewardSDS vs MVDream</h2>
+    <div class="comparison-item">
+      <h3 class="sub-results has-text-centered">NeRF-Based Scenes</h3>
+      <div class="comparison-row">
+        <div class="comparison-pair">
+          <div class="comparison-prompt">"A cartoon cat eating a cheesecake"</div>
+          <div class="video-container">
+            <div class="video-wrapper">
+              <video src="static/videos/results/nerf/cat.mp4" autoplay loop muted class="comparison-video"></video>
+              <div class="video-label">Reward SDS</div>
+            </div>
+            <div class="video-wrapper">
+              <video src="static/videos/baseline/nerf/cat.mp4" autoplay loop muted class="comparison-video"></video>
+              <div class="video-label">MVDream</div>
+            </div>
+          </div>
+        </div>
+        <div class="comparison-pair">
+          <div class="comparison-prompt">"A penguin with a brown bag in the snow"</div>
+          <div class="video-container">
+            <div class="video-wrapper">
+              <video src="static/videos/results/nerf/penguin.mp4" autoplay loop muted class="comparison-video"></video>
+              <div class="video-label">Reward SDS</div>
+            </div>
+            <div class="video-wrapper">
+              <video src="static/videos/baseline/nerf/penguin.mp4" autoplay loop muted class="comparison-video"></video>
+              <div class="video-label">MVDream</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-pair">
+          <div class="comparison-prompt">"A man with a beard, wearing a suit, holding a pink briefcase"</div>
+          <div class="video-container">
+            <div class="video-wrapper">
+              <video src="static/videos/results/nerf/man_briefcase.mp4" autoplay loop muted class="comparison-video"></video>
+              <div class="video-label">Reward SDS</div>
+            </div>
+            <div class="video-wrapper">
+              <video src="static/videos/baseline/nerf/man_briefcase.mp4" autoplay loop muted class="comparison-video"></video>
+              <div class="video-label">MVDream</div>
+            </div>
+          </div>
+        </div>
+        <div class="comparison-pair">
+          <div class="comparison-prompt">"A bulldog wearing a black pirate hat"</div>
+          <div class="video-container">
+            <div class="video-wrapper">
+              <video src="static/videos/results/nerf/bulldog.mp4" autoplay loop muted class="comparison-video"></video>
+              <div class="video-label">Reward SDS</div>
+            </div>
+            <div class="video-wrapper">
+              <video src="static/videos/baseline/nerf/bulldog.mp4" autoplay loop muted class="comparison-video"></video>
+              <div class="video-label">MVDream</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="comparison-item">
+      <h3 class="sub-results has-text-centered">3DGS-Based Scenes</h3>
+      <div class="comparison-row">
+        <div class="comparison-pair">
+          <div class="comparison-prompt">"Two dogs in the park"</div>
+          <div class="video-container">
+            <div class="video-wrapper">
+              <video class="video" src="static/videos/results/gs/dogs.mp4" autoplay loop muted class="comparison-video"></video>
+              <div class="video-label">Reward SDS</div>
+            </div>
+            <div class="video-wrapper">
+              <video class="video" src="static/videos/baseline/gs/dogs.mp4" autoplay loop muted class="comparison-video"></video>
+              <div class="video-label">MVDream</div>
+            </div>
+          </div>
+        </div>
+        <div class="comparison-pair">
+          <div class="comparison-prompt">"Two computer monitors on a brown wooden table"</div>
+          <div class="video-container">
+            <div class="video-wrapper">
+              <video class="video" src="static/videos/results/gs/monitors.mp4" autoplay loop muted class="comparison-video"></video>
+              <div class="video-label">Reward SDS</div>
+            </div>
+            <div class="video-wrapper">
+              <video class="video" src="static/videos/baseline/gs/monitors.mp4" autoplay loop muted class="comparison-video"></video>
+              <div class="video-label">MVDream</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-pair">
+          <div class="comparison-prompt">"A DSLR photo of the Imperial State Crown of England"</div>
+          <div class="video-container">
+            <div class="video-wrapper">
+              <video class="video" src="static/videos/results/gs/crown.mp4" autoplay loop muted class="comparison-video"></video>
+              <div class="video-label">Reward SDS</div>
+            </div>
+            <div class="video-wrapper">
+              <video class="video" src="static/videos/baseline/gs/crown.mp4" autoplay loop muted class="comparison-video"></video>
+              <div class="video-label">MVDream</div>
+            </div>
+          </div>
+        </div>
+        <div class="comparison-pair">
+          <div class="comparison-prompt">"A banana on the left of an apple"</div>
+          <div class="video-container">
+            <div class="video-wrapper">
+              <video class="video" src="static/videos/results/gs/banana.mp4" autoplay loop muted class="comparison-video"></video>
+              <div class="video-label">Reward SDS</div>
+            </div>
+            <div class="video-wrapper">
+              <video class="video" src="static/videos/baseline/gs/banana.mp4" autoplay loop muted class="comparison-video"></video>
+              <div class="video-label">MVDream</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="comparison-item">
+      <h2 class="results has-text-centered">Reward Model Effect</h2>
+      <div class="comparison-row">
+        <div class="comparison-pair">
+          <div class="comparison-prompt">"A skyscraper that reaches the clouds"</div>
+          <div class="video-container">
+            <div class="video-wrapper">
+              <video src="static/videos/aes/skyscraper.mp4" autoplay loop muted class="comparison-video"></video>
+              <div class="video-label">Aesthetic</div>
+            </div>
+            <div class="video-wrapper">
+              <video src="static/videos/results/nerf/skyscraper.mp4" autoplay loop muted class="comparison-video"></video>
+              <div class="video-label">ImageReward</div>
+            </div>
+          </div>
+        </div>
+        <div class="comparison-pair">
+          <div class="comparison-prompt">"Mini Chinatown"</div>
+          <div class="video-container">
+            <div class="video-wrapper">
+              <video src="static/videos/aes/china.mp4" autoplay loop muted class="comparison-video"></video>
+              <div class="video-label">Aesthetic</div>
+            </div>
+            <div class="video-wrapper">
+              <video src="static/videos/results/nerf/china.mp4" autoplay loop muted class="comparison-video"></video>
+              <div class="video-label">ImageReward</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BibTex citation -->
+    <section class="section" id="BibTeX">
+      <div class="container is-max-desktop content">
+        <h2 class="title has-text-centered">BibTeX</h2>
+        <pre><code>BibTex Code Here</code></pre>
+      </div>
+    </section>
+    <!-- End BibTex citation -->
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+              You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+</body>
+</html>
