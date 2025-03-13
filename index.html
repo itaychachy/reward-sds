@@ -31,7 +31,7 @@
             <div class="is-size-4 publication-authors">
               <!-- Paper authors -->
               <span class="author-block">
-                <a href="https://www.linkedin.com/in/itay-chachy-55339a1b7/" target="_blank">Itay Chachy</a>, </span>
+                <a href="https://scholar.google.com/citations?user=XDNH0QEAAAAJ&hl=en&oi=ao" target="_blank">Itay Chachy</a>, </span>
               <span class="author-block">
                 <a href="https://guyyariv.github.io/" target="_blank">Guy Yariv</a>, </span>
               <span class="author-block">
@@ -45,7 +45,7 @@
             <div class="publication-links">
               <!-- Arxiv PDF link -->
               <span class="link-block">
-                <a href="https://arxiv.org/pdf/<ARXIV PAPER ID>.pdf" target="_blank"
+                <a href="https://arxiv.org/pdf/2503.09601" target="_blank"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                     <i class="fas fa-file-pdf"></i>
@@ -55,7 +55,7 @@
               </span>
               <!-- ArXiv abstract Link -->
               <span class="link-block">
-                <a href="https://arxiv.org/abs/<ARXIV PAPER ID>" target="_blank"
+                <a href="https://arxiv.org/abs/2503.09601" target="_blank"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                     <i class="ai ai-arxiv"></i>
@@ -88,30 +88,30 @@
     <!-- Added inline flex styles with reduced gap for closer video items -->
     <div class="video-gallery" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 100px;">
       <div class="video-item">
-        <video class="video" src="static/videos/results/nerf/penguin.mp4" autoplay loop muted></video>
+        <video class="video" src="static/videos/results/nerf/penguin.mp4" autoplay loop muted playsinline></video>
         <div class="vid-title">"A penguin with a brown bag in the snow"</div>
       </div>
       <div class="video-item">
-        <video class="video" src="static/videos/results/nerf/scarf.mp4" autoplay loop muted></video>
+        <video class="video" src="static/videos/results/nerf/scarf.mp4" autoplay loop muted playsinline></video>
         <div class="vid-title">"A man with a red scarf"</div>
       </div>
       <div class="video-item">
-        <video class="video" src="static/videos/results/nerf/shitzu.mp4" autoplay loop muted></video>
+        <video class="video" src="static/videos/results/nerf/shitzu.mp4" autoplay loop muted playsinline></video>
         <div class="vid-title">"A shitzu with a bowtie"</div>
       </div>
     </div>
 
     <div class="video-gallery" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 100px;">
       <div class="video-item">
-        <video class="video" src="static/videos/results/nerf/dogs.mp4" autoplay loop muted></video>
+        <video class="video" src="static/videos/results/nerf/dogs.mp4" autoplay loop muted playsinline></video>
         <div class="vid-title">"Two dogs in the park"</div>
       </div>
       <div class="video-item">
-        <video class="video" src="static/videos/results/nerf/ghost.mp4" autoplay loop muted></video>
+        <video class="video" src="static/videos/results/nerf/ghost.mp4" autoplay loop muted playsinline></video>
         <div class="vid-title">"A DSLR photo of a ghost eating a hamburger"</div>
       </div>
       <div class="video-item">
-        <video class="video" src="static/videos/results/nerf/dunk.mp4" autoplay loop muted></video>
+        <video class="video" src="static/videos/results/nerf/dunk.mp4" autoplay loop muted playsinline></video>
         <div class="vid-title">"A basketball player dunking a basketball"</div>
       </div>
     </div>
@@ -146,15 +146,7 @@
           <img src="static/figs/method.png" alt="Method Figure" style="max-width:70%; height:auto;">
         </div>
       <p style="max-width: 67%; margin: 0 auto; font-size: 0.9em;">
-          Overview of our I2V framework, transforming a reference image \( x^{(0)} \) and text prompt \( c \) into a coherent video sequence \( \hat{x} \).
-          A pre-trained LLM is used to derive the motion-specific prompt \( c_{motion} \) and object-specific prompts
-          \( c_{local} = \{c_{local}^{(1)}, \dots, c_{local}^{(L)}\} \) capturing each object's intended motion.
-          We generate an initial segmentation mask \( s^{(0)} \) from \( x^{(0)} \) using SAM2.
-          In Stage 1, the Image-to-Motion utilizes \( x^{(0)}, s^{(0)}, c_{motion} \)
-          to generate mask-based motion trajectories \( \hat{s} \) that represent object-specific movement paths.
-          In Stage 2, the Motion-to-Video takes as input \( x^{(0)}, \hat{s}, c \) as a global condition,
-          and \( c_{local} \) through masked attention blocks, integrating the mask-based motion trajectory softly using learned attention layers.
-          Specifically, we employ (i) masked cross-attention to integrate object-specific prompts into corresponding latent space regions, and (ii) masked self-attention to ensure each object maintains consistency across frames by restricting attention to object-defined regions.
+          Overview of our method, an image is first rendered from a given view and <math><mi>N</mi></math> random noises are applied (at a given timestep). The noisy images are then scored by denoising them and applying a reward model on the output. These scores are then mapped to corresponding weights, which are used to weigh the contribution of each noisy sample in score distillation.
         </p>
       </div>
     </div>
@@ -172,11 +164,11 @@
           <div class="comparison-prompt">"A cartoon cat eating a cheesecake"</div>
           <div class="video-container">
             <div class="video-wrapper">
-              <video src="static/videos/results/nerf/cat.mp4" autoplay loop muted class="comparison-video"></video>
+              <video src="static/videos/results/nerf/cat.mp4" autoplay loop muted playsinline class="comparison-video"></video>
               <div class="video-label">Reward SDS</div>
             </div>
             <div class="video-wrapper">
-              <video src="static/videos/baseline/nerf/cat.mp4" autoplay loop muted class="comparison-video"></video>
+              <video src="static/videos/baseline/nerf/cat.mp4" autoplay loop muted playsinline class="comparison-video"></video>
               <div class="video-label">MVDream</div>
             </div>
           </div>
@@ -185,11 +177,11 @@
           <div class="comparison-prompt">"A penguin with a brown bag in the snow"</div>
           <div class="video-container">
             <div class="video-wrapper">
-              <video src="static/videos/results/nerf/penguin.mp4" autoplay loop muted class="comparison-video"></video>
+              <video src="static/videos/results/nerf/penguin.mp4" autoplay loop muted playsinline class="comparison-video"></video>
               <div class="video-label">Reward SDS</div>
             </div>
             <div class="video-wrapper">
-              <video src="static/videos/baseline/nerf/penguin.mp4" autoplay loop muted class="comparison-video"></video>
+              <video src="static/videos/baseline/nerf/penguin.mp4" autoplay loop muted playsinline class="comparison-video"></video>
               <div class="video-label">MVDream</div>
             </div>
           </div>
@@ -200,11 +192,11 @@
           <div class="comparison-prompt">"A man with a beard, wearing a suit, holding a pink briefcase"</div>
           <div class="video-container">
             <div class="video-wrapper">
-              <video src="static/videos/results/nerf/man_briefcase.mp4" autoplay loop muted class="comparison-video"></video>
+              <video src="static/videos/results/nerf/man_briefcase.mp4" autoplay loop muted playsinline class="comparison-video"></video>
               <div class="video-label">Reward SDS</div>
             </div>
             <div class="video-wrapper">
-              <video src="static/videos/baseline/nerf/man_briefcase.mp4" autoplay loop muted class="comparison-video"></video>
+              <video src="static/videos/baseline/nerf/man_briefcase.mp4" autoplay loop muted playsinline class="comparison-video"></video>
               <div class="video-label">MVDream</div>
             </div>
           </div>
@@ -213,11 +205,11 @@
           <div class="comparison-prompt">"A bulldog wearing a black pirate hat"</div>
           <div class="video-container">
             <div class="video-wrapper">
-              <video src="static/videos/results/nerf/bulldog.mp4" autoplay loop muted class="comparison-video"></video>
+              <video src="static/videos/results/nerf/bulldog.mp4" autoplay loop muted playsinline class="comparison-video"></video>
               <div class="video-label">Reward SDS</div>
             </div>
             <div class="video-wrapper">
-              <video src="static/videos/baseline/nerf/bulldog.mp4" autoplay loop muted class="comparison-video"></video>
+              <video src="static/videos/baseline/nerf/bulldog.mp4" autoplay loop muted playsinline class="comparison-video"></video>
               <div class="video-label">MVDream</div>
             </div>
           </div>
@@ -232,11 +224,11 @@
           <div class="comparison-prompt">"Two dogs in the park"</div>
           <div class="video-container">
             <div class="video-wrapper">
-              <video class="video" src="static/videos/results/gs/dogs.mp4" autoplay loop muted class="comparison-video"></video>
+              <video class="video" src="static/videos/results/gs/dogs.mp4" autoplay loop muted playsinline class="comparison-video"></video>
               <div class="video-label">Reward SDS</div>
             </div>
             <div class="video-wrapper">
-              <video class="video" src="static/videos/baseline/gs/dogs.mp4" autoplay loop muted class="comparison-video"></video>
+              <video class="video" src="static/videos/baseline/gs/dogs.mp4" autoplay loop muted playsinline class="comparison-video"></video>
               <div class="video-label">MVDream</div>
             </div>
           </div>
@@ -245,11 +237,11 @@
           <div class="comparison-prompt">"Two computer monitors on a brown wooden table"</div>
           <div class="video-container">
             <div class="video-wrapper">
-              <video class="video" src="static/videos/results/gs/monitors.mp4" autoplay loop muted class="comparison-video"></video>
+              <video class="video" src="static/videos/results/gs/monitors.mp4" autoplay loop muted playsinline class="comparison-video"></video>
               <div class="video-label">Reward SDS</div>
             </div>
             <div class="video-wrapper">
-              <video class="video" src="static/videos/baseline/gs/monitors.mp4" autoplay loop muted class="comparison-video"></video>
+              <video class="video" src="static/videos/baseline/gs/monitors.mp4" autoplay loop muted playsinline class="comparison-video"></video>
               <div class="video-label">MVDream</div>
             </div>
           </div>
@@ -260,11 +252,11 @@
           <div class="comparison-prompt">"A DSLR photo of the Imperial State Crown of England"</div>
           <div class="video-container">
             <div class="video-wrapper">
-              <video class="video" src="static/videos/results/gs/crown.mp4" autoplay loop muted class="comparison-video"></video>
+              <video class="video" src="static/videos/results/gs/crown.mp4" autoplay loop muted playsinline class="comparison-video"></video>
               <div class="video-label">Reward SDS</div>
             </div>
             <div class="video-wrapper">
-              <video class="video" src="static/videos/baseline/gs/crown.mp4" autoplay loop muted class="comparison-video"></video>
+              <video class="video" src="static/videos/baseline/gs/crown.mp4" autoplay loop muted playsinline class="comparison-video"></video>
               <div class="video-label">MVDream</div>
             </div>
           </div>
@@ -273,11 +265,11 @@
           <div class="comparison-prompt">"A banana on the left of an apple"</div>
           <div class="video-container">
             <div class="video-wrapper">
-              <video class="video" src="static/videos/results/gs/banana.mp4" autoplay loop muted class="comparison-video"></video>
+              <video class="video" src="static/videos/results/gs/banana.mp4" autoplay loop muted playsinline class="comparison-video"></video>
               <div class="video-label">Reward SDS</div>
             </div>
             <div class="video-wrapper">
-              <video class="video" src="static/videos/baseline/gs/banana.mp4" autoplay loop muted class="comparison-video"></video>
+              <video class="video" src="static/videos/baseline/gs/banana.mp4" autoplay loop muted playsinline class="comparison-video"></video>
               <div class="video-label">MVDream</div>
             </div>
           </div>
@@ -292,11 +284,11 @@
           <div class="comparison-prompt">"A skyscraper that reaches the clouds"</div>
           <div class="video-container">
             <div class="video-wrapper">
-              <video src="static/videos/aes/skyscraper.mp4" autoplay loop muted class="comparison-video"></video>
+              <video src="static/videos/aes/skyscraper.mp4" autoplay loop muted playsinline class="comparison-video"></video>
               <div class="video-label">Aesthetic</div>
             </div>
             <div class="video-wrapper">
-              <video src="static/videos/results/nerf/skyscraper.mp4" autoplay loop muted class="comparison-video"></video>
+              <video src="static/videos/results/nerf/skyscraper.mp4" autoplay loop muted playsinline class="comparison-video"></video>
               <div class="video-label">ImageReward</div>
             </div>
           </div>
@@ -305,11 +297,11 @@
           <div class="comparison-prompt">"Mini Chinatown"</div>
           <div class="video-container">
             <div class="video-wrapper">
-              <video src="static/videos/aes/china.mp4" autoplay loop muted class="comparison-video"></video>
+              <video src="static/videos/aes/china.mp4" autoplay loop muted playsinline class="comparison-video"></video>
               <div class="video-label">Aesthetic</div>
             </div>
             <div class="video-wrapper">
-              <video src="static/videos/results/nerf/china.mp4" autoplay loop muted class="comparison-video"></video>
+              <video src="static/videos/results/nerf/china.mp4" autoplay loop muted playsinline class="comparison-video"></video>
               <div class="video-label">ImageReward</div>
             </div>
           </div>
@@ -321,7 +313,15 @@
     <section class="section" id="BibTeX">
       <div class="container is-max-desktop content">
         <h2 class="title has-text-centered">BibTeX</h2>
-        <pre><code>BibTex Code Here</code></pre>
+        <pre><code>@misc{chachy2025rewardsdsaligningscoredistillation,
+      title={RewardSDS: Aligning Score Distillation via Reward-Weighted Sampling}, 
+      author={Itay Chachy and Guy Yariv and Sagie Benaim},
+      year={2025},
+      eprint={2503.09601},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2503.09601}, 
+}</code></pre>
       </div>
     </section>
     <!-- End BibTex citation -->
